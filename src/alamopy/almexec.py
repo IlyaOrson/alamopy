@@ -17,20 +17,27 @@ Run the ALAMO executable.
 
 import subprocess
 import almutils as almutils
+from pathlib import Path
 
+# base_path = Path("/home/io")
+base_path = Path("/content/")
+
+exec_path = base_path / "alamo-linux64" / "alamo"
 
 def exec_alamo(opts):
     """
     Call ALAMO on the written alm file, and capture stdout and stderr.
     """
     exec_result = subprocess.run(
-        ["alamo", opts["alm_file_name"]],
-        check=False,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        # [exec_path, opts["alm_file_name"]],
+        [str(exec_path), opts["alm_file_name"]],
+        check=True,
+        # stdout=subprocess.PIPE,
+        # stderr=subprocess.PIPE,
         shell=True,
+        capture_output=True,
     )
-
+    print(exec_result.stderr)
     alm_out = exec_result.stdout.decode("utf-8")
     opts["return"]["other"]["return_code"] = almutils.parse_term_code(alm_out)
 

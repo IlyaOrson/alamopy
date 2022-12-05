@@ -1,3 +1,6 @@
 import os, sys
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+p = os.path.dirname(os.path.abspath(__file__))
+print(f"Registering the path to alamopy: {p}")
+
+sys.path.append(p)
