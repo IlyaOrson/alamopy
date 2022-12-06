@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/IlyaOrson/alamopy/HEAD?labpath=example.ipynb)
+
 # alamopy
 
 This is an interface for using ALAMO through a Python pip package.
