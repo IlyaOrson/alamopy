@@ -52,8 +52,7 @@ RUN pip3 install -q ipython matplotlib sympy numpy jupyterlab jupyterhub
 
 RUN wget -q https://minlp.com/downloads/xecs/alamo/current/alamo-linux64.zip
 RUN unzip -q alamo-linux64.zip
-RUN wget -q https://gist.githubusercontent.com/IlyaOrson/cce96e9bfd440de1da7dbde5f1ac50c2/raw/e0478c5fc9f16dc786322e568cdada0611097138/alamolice.txt
-RUN mv alamolice.txt alamo-linux64/
+
 RUN ${HOME}/alamo-linux64/alamo --version
 
 ADD https://api.github.com/repos/IlyaOrson/alamopy/git/ref/heads/main /.git-hashref
