@@ -3,7 +3,7 @@ Necessary testing for all functions from almutils.py
 """
 
 # import functions from testing from almutils
-import almopts
+import alamopy.almopts as almopts
 import numpy as np
 
 # prepare_default_opts test

@@ -6,7 +6,7 @@ import os
 print(os.getcwd())
 
 import numpy as np
-from almain import doalamo
+from alamopy.almain import doalamo
 
 xdata = np.random.rand(10, 3)
 xdata[:, 0] *= 10  # Make x1 go from 0 to 10

@@ -16,7 +16,7 @@ Write a .alm file according to the grammar specified by ALAMO. Essentially
     changing the file passed in by the client to fit the syntax necesary for the
     ALAMO to parse through. 
 """
-import almutils as almutils
+import alamopy.almutils as almutils
 
 
 def write_alm_file(opts):

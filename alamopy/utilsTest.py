@@ -3,7 +3,7 @@ Necessary testing for all functions from almutils.py
 """
 
 # import functions from testing from almutils
-import almutils as almutils
+import alamopy.almutils as almutils
 
 # datadim test checks
 

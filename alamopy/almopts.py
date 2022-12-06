@@ -30,7 +30,7 @@ To add a new user option to ALAMO:
         alm_file_name cannot exceed 1000 characters, add that check in
         validate_opts.
 """
-import almutils as almutils
+import alamopy.almutils as almutils
 
 
 def prepare_default_opts():

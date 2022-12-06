@@ -14,8 +14,8 @@
 A layer that compassionates with the legacy IDAES interface.
 """
 
-import almain as almain
-import almutils as almutils
+import alamopy.almain as almain
+import alamopy.almutils as almutils
 
 
 def pre_process(xdata, zdata, **kwargs):

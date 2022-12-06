@@ -15,10 +15,10 @@ Main file of ALAMOpy; a shell that calls other alm functions.
 """
 import os
 
-import almopts as almopts
-import almwrite as almwrite
-import almexec as almexec
-import almread as almread
+import alamopy.almopts as almopts
+import alamopy.almwrite as almwrite
+import alamopy.almexec as almexec
+import alamopy.almread as almread
 import getpass, os, tempfile
 
 
