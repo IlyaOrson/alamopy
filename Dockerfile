@@ -1,15 +1,93 @@
 # FROM jupyter/minimal-notebook:latest
-FROM mcranmer/pysr:latest
+# FROM mcranmer/pysr:latest AS sr
+
+# PYSR DOCKERFILE BEGIN
+ARG JLVERSION=1.8.2
+ARG PYVERSION=3.10.8
+ARG BASE_IMAGE=bullseye
+
+FROM julia:${JLVERSION}-${BASE_IMAGE} AS jl
+FROM python:${PYVERSION}-${BASE_IMAGE}
+
+# BINDER INSTRUCTIONS
+# START BINDER
+ARG NB_USER=ic
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV NB_UID ${NB_UID}
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+
+USER ${NB_USER}
+WORKDIR ${HOME}
+
+RUN pwd
+RUN ls -lah
+
+# COPY . ${HOME}
+
+# RUN ls -lah ${HOME}
+
+# USER root
+# RUN chown -R ${NB_UID} ${HOME}
+# USER ${NB_USER}
+
+# add local pip install directory
+RUN echo "${HOME}/.local/bin"
+ENV PATH="${PATH}:${HOME}/.local/bin"
+RUN echo "${PATH}"
+# # END BINDER
+
+# Merge Julia image:
+COPY --from=jl /usr/local/julia /usr/local/julia
+ENV PATH="/usr/local/julia/bin:${PATH}"
+RUN echo "${PATH}"
+
+# Install IPython and other useful libraries:
+RUN pip3 install -q ipython matplotlib sympy numpy jupyterlab jupyterhub
 
 RUN wget -q https://minlp.com/downloads/xecs/alamo/current/alamo-linux64.zip
 RUN unzip -q alamo-linux64.zip
 RUN wget -q https://gist.githubusercontent.com/IlyaOrson/cce96e9bfd440de1da7dbde5f1ac50c2/raw/e0478c5fc9f16dc786322e568cdada0611097138/alamolice.txt
 RUN mv alamolice.txt alamo-linux64/
+RUN ${HOME}/alamo-linux64/alamo --version
+
 ADD https://api.github.com/repos/IlyaOrson/alamopy/git/ref/heads/main /.git-hashref
 RUN git clone https://github.com/IlyaOrson/alamopy.git
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir simpy numpy matplotlib jupyterlab
+RUN git clone https://github.com/MilesCranmer/PySR.git
 
-WORKDIR /home/io/alamopy/
+RUN pwd
+RUN ls -lah
+RUN ls -lah PySR/
+RUN ls -lah ${HOME}
+RUN ls -lah ${HOME}/PySR/
+RUN cat ${HOME}/PySR/requirements.txt
 
-CMD python3 -m jupyter lab example.ipynb --ip 0.0.0.0 --port 8888 --no-browser --allow-root
+# Caches install (https://stackoverflow.com/questions/25305788/how-to-avoid-reinstalling-packages-when-building-docker-image-for-python-project)
+# COPY ${HOME}/PySR/requirements.txt ${HOME}/requirements.txt
+RUN mv ${HOME}/PySR/requirements.txt ${HOME}/requirements.txt
+RUN pip3 install -r ${HOME}/requirements.txt
+
+# Install PySR:
+# We do a minimal copy so it doesn't need to rerun at every file change:
+# COPY ${HOME}/PySR/setup.py ${HOME}/setup.py
+# COPY ${HOME}/PySR/pysr/ ${HOME}/pysr/
+RUN mv ${HOME}/PySR/setup.py ${HOME}/setup.py
+RUN mv ${HOME}/PySR/pysr/ ${HOME}/pysr/
+RUN pip3 install .
+
+# Install Julia pre-requisites:
+RUN python3 -c 'import pysr; pysr.install()'
+# PYSR DOCKERFILE END
+
+RUN mv ${HOME}/alamopy/ ${HOME}/alamopy_repo
+RUN mv ${HOME}/alamopy_repo/alamopy/ ${HOME}/alamopy
+RUN mv ${HOME}/alamopy_repo/demo.ipynb ${HOME}/demo.ipynb
+
+RUN ls -lah
+
+# CMD python3 -m jupyter lab example.ipynb --ip 0.0.0.0 --port 8888 --no-browser --allow-root

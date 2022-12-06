@@ -19,7 +19,7 @@ import subprocess
 import alamopy.almutils as almutils
 from pathlib import Path
 
-base_path = Path(__file__).resolve().parent.parent.parent
+base_path = Path.home()
 # base_path = Path("/home/io")  # wsl
 # base_path = Path("/content/")  # collab
 
