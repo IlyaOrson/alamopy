@@ -1,1 +1,1 @@
-FROM ilyaorson/symbolic_regression:latest
+FROM ilyaorson/symbolic_regression:206803a8bed4
