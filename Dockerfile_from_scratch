@@ -48,7 +48,7 @@ ENV PATH="/usr/local/julia/bin:${PATH}"
 RUN echo "${PATH}"
 
 # Install IPython and other useful libraries:
-RUN pip3 install -q ipython numpy scipy sympy matplotlib jupyterlab jupyterhub
+RUN pip3 install -q ipython numpy scipy sympy statsmodels matplotlib pandas jupyterlab jupyterhub
 
 RUN wget -q https://minlp.com/downloads/xecs/alamo/current/alamo-linux64.zip
 RUN unzip -q alamo-linux64.zip
