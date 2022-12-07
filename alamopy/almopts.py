@@ -30,13 +30,12 @@ To add a new user option to ALAMO:
         alm_file_name cannot exceed 1000 characters, add that check in
         validate_opts.
 """
-import alamopy.almutils as almutils
-
+from alamopy import almutils
 
 def prepare_default_opts():
     """
     Prepare a dictionary containing default options for write_alm_file.
-    This dictionary WILL be the returned value after ALAMO is done 
+    This dictionary WILL be the returned value after ALAMO is done
     running. Note that this dictionary contains ALL the possible options,
     either necessary or optional. It also contains the data file the
     client passes in, and the lst_file produced from ALAMO with the stats.

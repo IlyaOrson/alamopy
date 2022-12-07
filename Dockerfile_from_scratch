@@ -1,7 +1,7 @@
 # FROM jupyter/minimal-notebook:latest
 # FROM mcranmer/pysr:latest AS sr
 
-# PYSR DOCKERFILE BEGIN
+# PYSR DOCKERFILE  https://github.com/MilesCranmer/PySR/blob/master/Dockerfile
 ARG JLVERSION=1.8.2
 ARG PYVERSION=3.10.8
 ARG BASE_IMAGE=bullseye
@@ -9,7 +9,7 @@ ARG BASE_IMAGE=bullseye
 FROM julia:${JLVERSION}-${BASE_IMAGE} AS jl
 FROM python:${PYVERSION}-${BASE_IMAGE}
 
-# BINDER INSTRUCTIONS
+# BINDER INSTRUCTIONS  https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
 # START BINDER
 ARG NB_USER=ic
 ARG NB_UID=1000
@@ -81,7 +81,6 @@ RUN pip3 install .
 
 # Install Julia pre-requisites:
 RUN python3 -c 'import pysr; pysr.install()'
-# PYSR DOCKERFILE END
 
 RUN mv ${HOME}/alamopy/ ${HOME}/alamopy_repo
 RUN mv ${HOME}/alamopy_repo/alamopy/ ${HOME}/alamopy

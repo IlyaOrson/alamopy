@@ -1,6 +1,9 @@
-# import os, sys
+from pathlib import Path
 
-# p = os.path.dirname(os.path.abspath(__file__))
-# print(f"Registering the path to alamopy: {p}")
+base_path = Path.home()
+# base_path = Path("/home/io")  # wsl
+# base_path = Path("/content/")  # collab
 
-# sys.path.append(p)
+exec_path = base_path / "alamo-linux64" / "alamo"
+
+print(f"Expected ALAMO executable location: {exec_path}")

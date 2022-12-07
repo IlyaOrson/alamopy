@@ -16,33 +16,29 @@ Run the ALAMO executable.
 """
 
 import subprocess
-import alamopy.almutils as almutils
-from pathlib import Path
-
-base_path = Path.home()
-# base_path = Path("/home/io")  # wsl
-# base_path = Path("/content/")  # collab
-
-exec_path = base_path / "alamo-linux64" / "alamo"
-
-print(f"Expected ALAMO executable location: {exec_path}")
+from alamopy import exec_path
+from alamopy import almutils
 
 def exec_alamo(opts):
     """
     Call ALAMO on the written alm file, and capture stdout and stderr.
     """
     exec_result = subprocess.run(
-        # [exec_path, opts["alm_file_name"]],
         [str(exec_path), opts["alm_file_name"]],
-        check=True,
-        # stdout=subprocess.PIPE,
-        # stderr=subprocess.PIPE,
-        shell=True,
+        # check=True,
         capture_output=True,
     )
-    print(exec_result.stderr)
+
     alm_out = exec_result.stdout.decode("utf-8")
+    alm_err = exec_result.stderr.decode("utf-8")
+
+    opts["return"]["out"]["stdout"] = alm_out
+    opts["return"]["out"]["stderr"] = alm_err
     opts["return"]["other"]["return_code"] = almutils.parse_term_code(alm_out)
 
     if opts["print_alm_output"]:
         print(alm_out)
+        if alm_err:
+            print(alm_err)
+
+    return opts

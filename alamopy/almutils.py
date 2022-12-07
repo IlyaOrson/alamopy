@@ -18,6 +18,8 @@ import os
 import subprocess
 import numpy as np
 
+from alamopy import exec_path
+
 
 def datadim(arr):
     """
@@ -372,7 +374,7 @@ def get_alamo_version():
     Returns: The version number, e.g. 2020.5.27
     """
     exec_result = subprocess.run(
-        ["alamo"], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        [str(exec_path)], check=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     alm_stdout = exec_result.stdout.decode("utf-8")
     lines = alm_stdout.split("\n")
